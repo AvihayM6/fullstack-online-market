@@ -11,3 +11,6 @@ In addition in another terminal, navigate to `frontend` folder and run `npm run 
 I used libraries such as: MaterialUI, Styled-component, Redux-toolkit, Axios, Lodash-sh, Mongoose.
 ## Additions
 I've implemenated deleteation for each product.
+
+## Video of the project
+https://github.com/AvihayM6/fullstack-online-market/assets/45402007/04050375-3ea4-4f94-8bd7-f7ce817c5753
