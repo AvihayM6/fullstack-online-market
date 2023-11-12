@@ -26,4 +26,3 @@ mongoose.connect(connectionURL).then(() => {
 app.get('/products', getProducts)
 app.post('/products', createProduct)
 app.delete('/products/:id', deleteProduct)
-// app.delete('/users', deleteAllUsers)

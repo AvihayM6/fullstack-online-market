@@ -33,7 +33,6 @@ const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [prefixer, rtlPlugin],
 })
-// {setProductToAdd, productToAdd}
 export const FormSelect = () => {
   const categories = useSelector(getAllCategories)
   const productToAdd = useSelector(getProductToAdd)
@@ -41,7 +40,6 @@ export const FormSelect = () => {
 
   const handleChange = (event) => {
     dispatch(addNewStateProduct({...productToAdd, category: event.target.value}))
-    // setProductToAdd({...productToAdd, category: event.target.value})
   }
   
   return (

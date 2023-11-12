@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import {FormTextField} from './FormTextField'
 import { FormSelect } from './FormSelect'
 import { FormButton } from './FormButton'
-import { useEffect, useState } from 'react'
 
 const ProductFormWrapper = styled.div`
   display: flex;
@@ -25,16 +24,13 @@ const InputsWrapper = styled.div`
 `
 
 export const ProductForm = () => {
-  // redux
-  const [productToAdd, setProductToAdd] = useState()
-
   return (
     <ProductFormWrapper>
       <InputsWrapper>
-        <FormTextField productToAdd={productToAdd} setProductToAdd={setProductToAdd} />
-        <FormSelect productToAdd={productToAdd} setProductToAdd={setProductToAdd} />
+        <FormTextField />
+        <FormSelect />
       </InputsWrapper>
-      <FormButton productToAdd={productToAdd} setProductToAdd={setProductToAdd} />
+      <FormButton />
     </ProductFormWrapper>
   )
 }

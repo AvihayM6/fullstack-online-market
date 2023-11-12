@@ -8,7 +8,7 @@ export const FormButton = () => {
   const productToAdd = useSelector(getProductToAdd)
 
   const addNewProduct = () => {
-    if(!productToAdd.productName) return
+    if(!productToAdd.productName || !productToAdd.category) return
     else {
       dispatch(addProduct(productToAdd))
       dispatch(cleanStateProduct())

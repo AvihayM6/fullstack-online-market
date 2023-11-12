@@ -1,8 +1,11 @@
 import styled from 'styled-components'
 import Divider from '@mui/material/Divider'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { removeSingleProduct, fetchProducts } from '../../../store/Products'
+import { groupBy } from 'lodash-es'
+import { useEffect, useState } from 'react'
+import { getProductsAsMapByName } from '../../../store/selectors'
 
 
 const ProductSummaryWrapper = styled.div`
@@ -36,30 +39,46 @@ const ProductItemContainer = styled.div`
   align-items: center;
   font-size: 0.9rem;
 `
+const ProductDisplay = styled.div`
+  display: flex;
+`
+const ProductName = styled.div``
+const ProductQuantity = styled.div`
+  margin-right: 10px;
+`
 
 export const ProductSummary = ({ category, products}) => {
   const dispatch = useDispatch()
-  
-
-  const deleteProduct = async (productId) => {
-    await dispatch(removeSingleProduct(productId))
+  const productsAsMapByName = useSelector(getProductsAsMapByName)
+  const deleteProduct = async (productName) => {
+    await dispatch(removeSingleProduct(productsAsMapByName[productName][0]._id))
     dispatch(fetchProducts())
   }
+
+  const [productToDisplay, setProductToDisplay] = useState([])
+
+  useEffect(() => {
+    setProductToDisplay(groupBy(products, 'productName'))
+  }, [products])
 
   return (
     <ProductSummaryWrapper>
       <ProductSummaryTitleContainer>
-        <ProductSummaryTitle>{category} - {products.length} מוצרים</ProductSummaryTitle>
+        <ProductSummaryTitle>{category} - {products?.length} מוצרים</ProductSummaryTitle>
       </ProductSummaryTitleContainer>
       <Divider />
       <ProductSummaryListContainer>
       
       {
-        products.map(product => {
-          return <ProductItemContainer key={product._id}>
-                  {product.productName} <DeleteOutlineIcon sx={{cursor:'pointer'}}
-                                                           onClick={() => deleteProduct(product._id)}/>
-                  </ProductItemContainer>
+        Object.keys(productToDisplay)?.map(productName => {
+          return <ProductItemContainer key={productName}>
+                  <ProductDisplay>
+                    <ProductName>{productName}</ProductName>
+                    <ProductQuantity>({productToDisplay[productName].length})</ProductQuantity>
+                  </ProductDisplay>
+                  
+                  <DeleteOutlineIcon sx={{cursor:'pointer'}} onClick={() => deleteProduct(productName)}/>
+                 </ProductItemContainer>
         })
       }
       </ProductSummaryListContainer>

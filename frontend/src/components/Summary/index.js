@@ -1,12 +1,11 @@
 import styled from 'styled-components'
 import {SummaryTitle} from './SummaryTitle'
 import {ProductSummary} from './ProductSummary'
-import Grid from '@mui/system/Unstable_Grid'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts } from '../../store/Products'
-import { useEffect, useState } from 'react'
-import {CATEGORIES} from '../../constants'
-import {getAllCategories, getProductsAsMap} from '../../store/selectors'
+import { useEffect } from 'react'
+import {getAllCategories, getProductsAsMapByCategory, getProductsAsMapByName} from '../../store/selectors'
+import { groupBy } from 'lodash-es'
 
 const SummaryWrapper = styled.div`
   width: 100%;
@@ -21,9 +20,10 @@ const DisplayContainerCard = styled.div `
 
 export const Summary = () => {
   const categories = useSelector(getAllCategories)
-  const productsByCategory = useSelector(getProductsAsMap)
-
+  const productsByCategory = useSelector(getProductsAsMapByCategory)
+  const productsByName = useSelector(getProductsAsMapByName)
   const dispatch = useDispatch()
+
   
   useEffect(() => {
     dispatch(fetchProducts())
@@ -36,7 +36,7 @@ export const Summary = () => {
           .filter(category => productsByCategory[category.value])
           .map(category => {
             return <ProductSummary category={category.name}
-                                   products={productsByCategory[category.value]}
+                                   products={productsByCategory?.[category.value]}
                                    key={category.name}/>
       })}
       </DisplayContainerCard>
